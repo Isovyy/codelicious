@@ -1,57 +1,7 @@
-import { useState } from "react";
-
-// --- Module Data ---
-const MODULES = [
-  {
-    id: 1,
-    title: "Preparing Ingredients",
-    subtitle: "Data Types & Manipulation",
-    locked: false,
-    image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80",
-  },
-  {
-    id: 2,
-    title: "Mise en Place",
-    subtitle: "Variables",
-    locked: true,
-    image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80",
-  },
-  {
-    id: 3,
-    title: "Instant Spices",
-    subtitle: "Functions",
-    locked: true,
-    image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&q=80",
-  },
-  {
-    id: 4,
-    title: "Spice Combinations",
-    subtitle: "If, Else, And, Or, Not",
-    locked: true,
-    image: "https://images.unsplash.com/photo-1506368249639-73a05d6f6488?w=400&q=80",
-  },
-  {
-    id: 5,
-    title: "Composing Skewers",
-    subtitle: "Array, Stack, and Queue",
-    locked: true,
-    image: "https://images.unsplash.com/photo-1529563021893-cc83c992d75d?w=400&q=80",
-  },
-  {
-    id: 6,
-    title: "Layer Cakes",
-    subtitle: "Loops",
-    locked: true,
-    image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&q=80",
-  },
-  {
-    id: 7,
-    title: "Cracking Eggs",
-    subtitle: "Recursion",
-    locked: true,
-    image: "https://images.unsplash.com/photo-1489549132488-d00b7eee80f1?w=400&q=80",
-  },
-];
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { MODULES as MODULE_DATA } from "../data/modules";
+import { loadProgress, isModuleUnlocked, saveProgress } from "../store/progress";
 
 // --- Lock Icon SVG ---
 function LockIcon() {
@@ -160,6 +110,28 @@ function ModuleCard({ module, onClick }) {
 // --- Main Menu ---
 export default function MainMenu() {
   const [selectedModule, setSelectedModule] = useState(null);
+  const [modules, setModules] = useState(MODULE_DATA);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const progress = loadProgress();
+    const mapped = MODULE_DATA.map((m) => ({
+      ...m,
+      locked: !isModuleUnlocked(m.id, progress),
+    }));
+    setModules(mapped);
+  }, []);
+
+  function unlockThreeForTest() {
+    // Mark module 1 and 2 as completed so modules 1-3 become unlocked
+    saveProgress({ completedModules: [1, 2], currentModule: 3 });
+    const progress = loadProgress();
+    const mapped = MODULE_DATA.map((m) => ({
+      ...m,
+      locked: !isModuleUnlocked(m.id, progress),
+    }));
+    setModules(mapped);
+  }
 
   return (
     <div
@@ -214,6 +186,22 @@ export default function MainMenu() {
         >
           CodeKitchen
         </span>
+        <div style={{ marginLeft: "auto" }}>
+          <button
+            onClick={unlockThreeForTest}
+            title="Dev: unlock first 3 modules"
+            style={{
+              background: "#fff",
+              border: "none",
+              borderRadius: 8,
+              padding: "6px 10px",
+              cursor: "pointer",
+              fontSize: 13,
+            }}
+          >
+            Unlock 3 (dev)
+          </button>
+        </div>
       </nav>
 
       {/* Module Grid */}
@@ -227,7 +215,7 @@ export default function MainMenu() {
             margin: "0 auto",
           }}
         >
-          {MODULES.map((mod) => (
+          {modules.map((mod) => (
             <ModuleCard
               key={mod.id}
               module={mod}
@@ -270,6 +258,12 @@ export default function MainMenu() {
               {selectedModule.subtitle}
             </p>
             <button
+              onClick={() => {
+                if (!selectedModule.locked) {
+                  // navigate to the module route defined in data/modules.js
+                  navigate(selectedModule.route);
+                }
+              }}
               style={{
                 backgroundColor: "#6b3c2a",
                 color: "#fff",
@@ -277,9 +271,10 @@ export default function MainMenu() {
                 borderRadius: "8px",
                 padding: "12px 28px",
                 fontSize: "15px",
-                cursor: "pointer",
+                cursor: selectedModule.locked ? "default" : "pointer",
                 fontFamily: "'Georgia', serif",
                 marginRight: "12px",
+                opacity: selectedModule.locked ? 0.6 : 1,
               }}
             >
               Start Module →

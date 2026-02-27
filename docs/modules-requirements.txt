@@ -1,0 +1,172 @@
+Module Requirements & Technical Specifications
+=========================================
+
+Overview
+--------
+This document records functional and technical requirements for Modules 1–3
+in the CodeKitchen project. It is intended for developers implementing,
+testing, and extending the modules.
+
+Location of existing implementations
+------------------------------------
+- Module 1: src/modules/01-ingredients/index.jsx
+- Module 2: src/modules/02-mise-en-place/index.jsx
+- Module 3: src/modules/03-instant-spices/index.jsx
+
+Global constraints
+------------------
+- All state is client-side React state; progress persistence uses
+  src/store/progress.js (localStorage).
+- Routing uses React Router; each module exposes two routes: index (tutorial)
+  and /minigame (interactive exercise).
+- UI must be responsive for desktop sizes; mobile support is optional but
+  consider flexible widths.
+
+Module 1 — Preparing Ingredients (Data Types)
+--------------------------------------------
+Purpose
+- Teach basic data types and parsing numbers from free-form text.
+
+Files / Components
+- Tutorial: `Tutorial` component in src/modules/01-ingredients/index.jsx
+- Minigame: `Minigame` component in same file
+
+State
+- Local state: `input: string`, `result: number|null`
+
+Key functions
+- sumNumbersFromString(s: string): number
+  - Behavior: extract numeric sequences (supports integers and decimals,
+    optional negative sign) and return their numeric sum.
+  - Regex used: /-?\d+(?:\.\d+)?/g
+
+Acceptance criteria
+- Input `"3 apples and 2"` → result `5`.
+- Input with no numbers → result `0`.
+- Calling `completeModule(1)` when user completes the exercise.
+
+Test cases
+- "3 apples and 2" => 5
+- "-2 and 3.5" => 1.5
+- "no numbers" => 0
+
+Edge cases & notes
+- Very large numeric sequences should be handled via Number();
+  consider BigInt only if intended.
+- Internationalization: decimal comma not supported by current parser.
+
+Module 2 — Mise en Place (Variables)
+-----------------------------------
+Purpose
+- Demonstrate variables as named containers that store/retrieve values.
+
+Files / Components
+- Tutorial: `Tutorial` in src/modules/02-mise-en-place/index.jsx
+- Minigame: `Minigame` in same file
+
+State
+- `box: { name: string, value: string }`
+- `input: string`
+
+Key interactions
+- Store: set `box.value = input` and clear input.
+- Clear: set `box.value = ""`.
+- Complete: call `completeModule(2)`.
+
+Acceptance criteria
+- The UI shows current box name and value.
+- Storing a value updates visible state immediately.
+
+Tests
+- Store "hello" → box shows "hello"; clear → box shows empty.
+
+Edge cases & notes
+- Values are stored only in component state (not persisted) to keep
+  the concept focused on variables; if persistence is desired, use
+  `saveProgress` or localStorage keys (future enhancement).
+
+Module 3 — Instant Spices (Functions / Combine Containers)
+--------------------------------------------------------
+Purpose
+- Teach functions as composable operations that take container data and
+  return combined outputs. Include drag-and-drop and explicit function
+  selection to illustrate parameterization and return values.
+
+Files / Components
+- `src/modules/03-instant-spices/index.jsx` exports `Tutorial` and `Minigame`.
+
+State (module-local)
+- `containers: Array<{id:number, name:string, items:Array<string>}>`
+- `selected: number | null` (selected container id)
+- `input: string` (new item text)
+- `result: any` (latest function output)
+- `history: Array<{fn:string, output:any}>`
+- `bigContainer: any` (output placed into big container)
+- `bigDroppedItems: Array<string>` (items dropped directly into the big container)
+  - These are currently component-level state (use useState).
+
+Drag-and-drop API (browser)
+- Items are draggable via `draggable` attribute.
+- `dragstart` handler writes JSON payload to dataTransfer
+  under mime `application/json`: { item, fromId, index }
+- Drop targets implement `onDragOver(e) => e.preventDefault()` and
+  `onDrop` handlers to parse the payload and update state.
+
+Combine functions (examples included)
+- `combineConcat(containers)` => Array of items in order
+- `combineUnique(containers)` => Array of unique items (Set)
+- `combineCounts(containers)` => Object mapping item -> count
+
+Big Container behavior
+- The big container shows the most recent combined output when the
+  user clicks "Combine to Big Container".
+- Items dragged directly into the Big Container are appended to
+  `bigDroppedItems` and removed from their source container.
+
+Acceptance criteria
+- User can add/remove containers and items.
+- User can drag an item between jars; source jar no longer has it,
+  target jar receives it.
+- Dragging an item into the big container removes it from the jar
+  and shows it in the big container area.
+- Selecting a combine function and clicking Combine places the output
+  into `bigContainer` and displays it appropriately (array or object).
+
+Tests
+- containers [{A:["salt","pepper"]},{B:["salt","sugar"]}] =>
+  combineCounts => { salt: 2, pepper: 1, sugar: 1 }
+- Drag salt from A to B => A no longer contains salt; B contains salt once
+- Drag sugar from B into big container => bigDroppedItems includes sugar
+
+Accessibility & keyboard support
+- Current implementation uses native drag-and-drop which is not fully
+  keyboard-accessible. Provide fallbacks:
+  - Focusable item elements with a "Move to big" button for keyboard users.
+  - ARIA labels on interactive elements.
+
+Performance
+- Operations are O(N) in number of items; N is expected small in learning
+  scenarios. No special optimization required now.
+
+Future Enhancements
+- Add animation for merging jars into the big container (CSS transitions
+  or react-spring).
+- Implement keyboard-based item move (select item -> press 'M' -> choose
+  destination).
+- Add exercise validation with hints and auto-checking of expected outputs.
+
+Developer Notes
+---------------
+- Keep module code self-contained; avoid cross-module state except via
+  `src/store/progress.js` for completion.
+- When adding tests, mock `localStorage` or use `loadProgress`/`saveProgress`
+  wrappers.
+
+Appendix — Example data shapes
+-----------------------------
+- containers example:
+  [ { id:1, name:"Jar A", items:["salt","pepper"] }, { id:2, name:"Jar B", items:["cinnamon"] } ]
+- combineCounts output:
+  { salt: 2, pepper: 1, cinnamon: 1 }
+
+End of document
