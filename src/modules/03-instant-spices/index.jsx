@@ -25,7 +25,6 @@ const btnStyle = {
   padding: "10px 20px",
   fontSize: 14,
   cursor: "pointer",
-  fontFamily: "'Georgia', serif",
 };
 
 // --- Tutorial ---
@@ -33,8 +32,8 @@ function Tutorial() {
   const navigate = useNavigate();
   return (
     <div style={{ padding: "32px 28px", maxWidth: 760, margin: "0 auto" }}>
-      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 8, fontFamily: "'Georgia', serif" }}>
-        ✨ Instant Spices — Functions
+      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 8 }}>
+        ✨ Assembling Ingredients — Functions
       </h2>
       <p style={{ color: "#555", marginBottom: 8 }}>
         You've identified your ingredients and prepped them in labeled bowls.
@@ -151,7 +150,7 @@ function Minigame() {
 
   return (
     <div style={{ padding: "32px 28px", maxWidth: 960, margin: "0 auto" }}>
-      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 24, fontFamily: "'Georgia', serif" }}>
+      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 24 }}>
         🥞 Pancake Kitchen
       </h2>
 
@@ -163,7 +162,7 @@ function Minigame() {
             Your Bowls
           </div>
           <div style={{ fontSize: 11, color: "#bbb", marginBottom: 16, fontStyle: "italic" }}>
-            from mise en place
+            from Swapping Ingredients
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {BOWLS.map((item) => (
@@ -177,6 +176,8 @@ function Minigame() {
                   alignItems: "center",
                   gap: 4,
                   cursor: "pointer",
+                  fontSize: 13,
+                  textAlign: "left",
                 }}
               >
                 <code style={{ fontSize: 12, color: "#6b3c2a", fontWeight: 700 }}>{item.name}</code>
@@ -252,7 +253,6 @@ function Minigame() {
                   backgroundColor: "#fff",
                   cursor: "pointer",
                   fontSize: 13,
-                  fontFamily: "'Georgia', serif",
                 }}
               >
                 <span style={{ fontSize: 16 }}>{item.emoji}</span>
@@ -363,8 +363,8 @@ function Minigame() {
 // --- Module Root ---
 export default function InstantSpicesModule() {
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#e8e0d0", fontFamily: "'Georgia', serif" }}>
-      <ModuleShell title="Instant Spices" baseRoute="/modules/instant-spices" />
+    <div style={{ minHeight: "100vh", backgroundColor: "#e8e0d0" }}>
+      <ModuleShell title="Assembling Ingredients" baseRoute="/modules/instant-spices" />
       <Routes>
         <Route index element={<Tutorial />} />
         <Route path="minigame" element={<Minigame />} />
