@@ -36,7 +36,6 @@ const btnStyle = {
   padding: "10px 20px",
   fontSize: 14,
   cursor: "pointer",
-  fontFamily: "'Georgia', serif",
 };
 
 // --- Tutorial ---
@@ -44,7 +43,7 @@ function Tutorial() {
   const navigate = useNavigate();
   return (
     <div style={{ padding: "32px 28px", maxWidth: 760, margin: "0 auto" }}>
-      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 8, fontFamily: "'Georgia', serif" }}>
+      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 8 }}>
         🧺 Mise en Place
       </h2>
       <p style={{ color: "#555", marginBottom: 8 }}>
@@ -199,7 +198,7 @@ function Minigame() {
 
         {/* ── Left: shelf + history ── */}
         <div style={{ width: 180, flexShrink: 0 }}>
-          <h3 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 16, fontFamily: "'Georgia', serif" }}>
+          <h3 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 16 }}>
             Shelf
           </h3>
           <div style={{ borderBottom: "2px solid #c4a882", paddingBottom: 14, marginBottom: 20 }}>
@@ -256,7 +255,7 @@ function Minigame() {
 
         {/* ── Right: tasks + bowls ── */}
         <div style={{ flex: 1 }}>
-          <h3 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 20, fontFamily: "'Georgia', serif" }}>
+          <h3 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 20 }}>
             🧑‍🍳 Recipe Update
           </h3>
 
@@ -322,7 +321,7 @@ function Minigame() {
 // --- Module Root ---
 export default function MiseEnPlaceModule() {
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#e8e0d0", fontFamily: "'Georgia', serif" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#e8e0d0" }}>
       <ModuleShell title="Mise en Place" baseRoute="/modules/mise-en-place" />
       <Routes>
         <Route index element={<Tutorial />} />

@@ -14,14 +14,13 @@ const btnStyle = {
   padding: "10px 20px",
   fontSize: 14,
   cursor: "pointer",
-  fontFamily: "'Georgia', serif",
 };
 
 function Tutorial() {
   const navigate = useNavigate();
   return (
     <div style={{ padding: "32px 28px", maxWidth: 760, margin: "0 auto" }}>
-      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 8, fontFamily: "'Georgia', serif" }}>
+      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 8 }}>
         🥙 Composing Skewers — Arrays
       </h2>
       <p style={{ color: "#555", marginBottom: 8 }}>
@@ -69,7 +68,7 @@ function Minigame() {
 
   return (
     <div style={{ padding: "32px 28px", maxWidth: 760, margin: "0 auto" }}>
-      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 24, fontFamily: "'Georgia', serif" }}>
+      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 24 }}>
         🎮 Skewer Builder
       </h2>
       <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
@@ -92,7 +91,7 @@ function Minigame() {
 
 export default function SkewersModule() {
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#e8e0d0", fontFamily: "'Georgia', serif" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#e8e0d0" }}>
       <ModuleShell title="Composing Skewers" baseRoute="/modules/skewers" />
       <Routes>
         <Route index element={<Tutorial />} />

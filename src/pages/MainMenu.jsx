@@ -82,7 +82,6 @@ function ModuleCard({ module, onClick }) {
         <p
           style={{
             margin: 0,
-            fontFamily: "'Georgia', serif",
             fontSize: "14px",
             fontWeight: "700",
             color: module.locked ? "#ccc" : "#1a1a1a",
@@ -94,7 +93,6 @@ function ModuleCard({ module, onClick }) {
         <p
           style={{
             margin: "4px 0 0",
-            fontFamily: "'Georgia', serif",
             fontSize: "11px",
             color: module.locked ? "#888" : "#555",
             fontStyle: "italic",
@@ -138,7 +136,6 @@ export default function MainMenu() {
       style={{
         minHeight: "100vh",
         backgroundColor: "#e8e0d0",
-        fontFamily: "'Georgia', serif",
       }}
     >
       {/* Navbar */}
@@ -251,7 +248,7 @@ export default function MainMenu() {
               boxShadow: "0 20px 60px rgba(0,0,0,0.4)",
             }}
           >
-            <h2 style={{ margin: "0 0 8px", fontFamily: "'Georgia', serif", color: "#6b3c2a" }}>
+            <h2 style={{ margin: "0 0 8px", color: "#6b3c2a" }}>
               {selectedModule.title}
             </h2>
             <p style={{ color: "#888", fontStyle: "italic", marginBottom: "24px" }}>
@@ -272,7 +269,6 @@ export default function MainMenu() {
                 padding: "12px 28px",
                 fontSize: "15px",
                 cursor: selectedModule.locked ? "default" : "pointer",
-                fontFamily: "'Georgia', serif",
                 marginRight: "12px",
                 opacity: selectedModule.locked ? 0.6 : 1,
               }}
@@ -289,7 +285,6 @@ export default function MainMenu() {
                 padding: "12px 20px",
                 fontSize: "15px",
                 cursor: "pointer",
-                fontFamily: "'Georgia', serif",
               }}
             >
               Close

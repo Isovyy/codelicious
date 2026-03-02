@@ -28,7 +28,6 @@ const btnStyle = {
   padding: "10px 20px",
   fontSize: 14,
   cursor: "pointer",
-  fontFamily: "'Georgia', serif",
 };
 
 // --- Tutorial ---
@@ -36,7 +35,7 @@ function Tutorial() {
   const navigate = useNavigate();
   return (
     <div style={{ padding: "32px 28px", maxWidth: 760, margin: "0 auto" }}>
-      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 8, fontFamily: "'Georgia', serif" }}>
+      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 8 }}>
         ✨ Instant Spices — Functions
       </h2>
       <p style={{ color: "#555", marginBottom: 8 }}>
@@ -154,7 +153,7 @@ function Minigame() {
 
   return (
     <div style={{ padding: "32px 28px", maxWidth: 960, margin: "0 auto" }}>
-      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 24, fontFamily: "'Georgia', serif" }}>
+      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 24 }}>
         🥞 Pancake Kitchen
       </h2>
 
@@ -184,7 +183,6 @@ function Minigame() {
                   cursor: "pointer",
                   fontSize: 13,
                   textAlign: "left",
-                  fontFamily: "'Georgia', serif",
                 }}
               >
                 <span style={{ fontSize: 18 }}>{item.emoji}</span>
@@ -236,7 +234,6 @@ function Minigame() {
                   backgroundColor: "#fff",
                   cursor: "pointer",
                   fontSize: 13,
-                  fontFamily: "'Georgia', serif",
                 }}
               >
                 <span style={{ fontSize: 16 }}>{item.emoji}</span>
@@ -346,7 +343,7 @@ function Minigame() {
 // --- Module Root ---
 export default function InstantSpicesModule() {
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#e8e0d0", fontFamily: "'Georgia', serif" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#e8e0d0" }}>
       <ModuleShell title="Instant Spices" baseRoute="/modules/instant-spices" />
       <Routes>
         <Route index element={<Tutorial />} />

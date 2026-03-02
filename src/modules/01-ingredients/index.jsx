@@ -35,7 +35,7 @@ function Tutorial() {
   const navigate = useNavigate();
   return (
     <div style={{ padding: "32px 28px", maxWidth: 760, margin: "0 auto" }}>
-      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 8, fontFamily: "'Georgia', serif" }}>
+      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 8 }}>
         📦 Preparing Ingredients
       </h2>
       <p style={{ color: "#555", marginBottom: 32 }}>
@@ -67,7 +67,6 @@ function Tutorial() {
           padding: "12px 28px",
           fontSize: 15,
           cursor: "pointer",
-          fontFamily: "'Georgia', serif",
         }}
       >
         Try the Exercise →
@@ -184,18 +183,97 @@ function PantryContainer({ drops, onDrop, onRemove }) {
   );
 }
 
+function CodeFrame({ title, children, variant = "code" }) {
+  const palette =
+    variant === "output"
+      ? {
+          shellBg: "#f6decc",
+          toolbarBg: "#f9c79a",
+          bodyBg: "#fff6e9",
+          titleColor: "#3B2F2F",
+        }
+      : {
+          shellBg: "#d9e3cf",
+          toolbarBg: "#b7dfe0",
+          bodyBg: "#d9f0f2",
+          titleColor: "#3B2F2F",
+        };
+
+  return (
+    <div
+      style={{
+        backgroundColor: palette.shellBg,
+        borderRadius: 18,
+        padding: 0,
+        boxShadow: "0 6px 0 rgba(65, 55, 47, 0.8)",
+        border: "2px solid #41372f",
+        marginBottom: 18,
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "8px 10px",
+          borderRadius: "16px 16px 0 0",
+          backgroundColor: palette.toolbarBg,
+          boxSizing: "border-box",
+        }}
+      >
+        <span
+          style={{
+            fontSize: 14,
+            fontWeight: 700,
+            color: palette.titleColor,
+          }}
+        >
+          {title}
+        </span>
+        <div style={{ display: "flex", gap: 4 }}>
+          <span style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "#5fb878" }} />
+          <span style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "#f2c14f" }} />
+          <span style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "#e67b7b" }} />
+        </div>
+      </div>
+      <pre
+        style={{
+          margin: 0,
+          padding: "10px 12px 12px",
+          borderRadius: "0 0 16px 16px",
+          backgroundColor: palette.bodyBg,
+          fontFamily: "monospace",
+          fontSize: 13,
+          lineHeight: 1.5,
+          whiteSpace: "pre-wrap",
+          color: "#3B2F2F",
+        }}
+      >
+        {children}
+      </pre>
+    </div>
+  );
+}
+
 // --- Minigame ---
 function Minigame() {
   const navigate = useNavigate();
   const [slots, setSlots] = useState({ int1: null, int2: null, str1: null, str2: null });
   const [pantryDrops, setPantryDrops] = useState([]);
+  const [activeStep, setActiveStep] = useState(1);
 
   function drop(key, item) {
     setSlots((s) => ({ ...s, [key]: item }));
+    if (key === "int1" || key === "int2") {
+      setActiveStep(1);
+    } else if (key === "str1" || key === "str2") {
+      setActiveStep(2);
+    }
   }
 
   function dropToPantry(item) {
     setPantryDrops((d) => [...d, item]);
+    setActiveStep(3);
   }
 
   function removeFromPantry(i) {
@@ -214,21 +292,70 @@ function Minigame() {
   );
   const allDone = intResult === 5 && strResult === "eggs" && pantryComplete;
 
-  const code = {
+  const codeChip = {
     fontFamily: "monospace",
     fontSize: 15,
     backgroundColor: "#f4f4f4",
     padding: "4px 10px",
     borderRadius: 6,
+    color: "#1F4E79",
   };
 
+  const step1Code = [
+    "int total_flour = 0",
+    `int var1 = ${slots.int1 ? slots.int1.value : 0}`,
+    `int var2 = ${slots.int2 ? slots.int2.value : 0}`,
+    "total_flour = var1 + var2",
+    "print(total_flour)",
+  ].join("\n");
+
+  const step1Output = intResult !== null ? String(intResult) : "";
+
+  const step2Code = [
+    `string left = ${slots.str1 ? `"${slots.str1.value}"` : '""'}`,
+    `string right = ${slots.str2 ? `"${slots.str2.value}"` : '""'}`,
+    "string label = left + right",
+    "print(label)",
+  ].join("\n");
+
+  const step2Output = strResult !== null ? `"${strResult}"` : "";
+
+  const step3Code = [
+    "bool milk = true",
+    "bool butter = false",
+    "bool sugar = true",
+    "bool salt = false",
+    "",
+    'print("milk")',
+    'print("sugar")',
+  ].join("\n");
+
+  const step3Output = RECIPE_NEEDS.map((r) => {
+    const dropped = pantryDrops.some((d) => d.category === r.category);
+    return `${r.label}: ${dropped ? "true" : "false"}`;
+  }).join("\n");
+
+  let codeTitle = "Code: Step 1";
+  let codeText = step1Code;
+  let outputText = step1Output;
+
+  if (activeStep === 2) {
+    codeTitle = "Code: Step 2";
+    codeText = step2Code;
+    outputText = step2Output;
+  } else if (activeStep === 3) {
+    codeTitle = "Code: Step 3";
+    codeText = step3Code;
+    outputText = step3Output;
+  }
+
   return (
-    <div style={{ padding: "32px 28px", maxWidth: 960, margin: "0 auto" }}>
+    <div style={{ padding: "32px 28px", maxWidth: 1100, margin: "0 auto" }}>
       <div style={{ display: "flex", gap: 40, alignItems: "flex-start" }}>
 
         {/* ── Shelf ── */}
         <div style={{ width: 195, flexShrink: 0 }}>
-          <h3 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 20, fontFamily: "'Georgia', serif" }}>
+          <h3 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 20 }}>
             Shelf
           </h3>
           {SHELVES.map(({ label, items }) => (
@@ -264,120 +391,139 @@ function Minigame() {
           ))}
         </div>
 
-        {/* ── Recipe Card ── */}
-        <div style={{ flex: 1 }}>
-          <h3 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 24, fontFamily: "'Georgia', serif" }}>
-            🥞 Classic Pancake Recipe
-          </h3>
+        {/* ── Middle: recipe + right code column ── */}
+        <div style={{ flex: 1, display: "flex", gap: 32, alignItems: "flex-start" }}>
 
-          {/* Step 1 — integers */}
-          <div style={{ marginBottom: 28 }}>
-            <div style={{ fontWeight: 700, marginBottom: 4 }}>Step 1 — Measure flour</div>
-            <div style={{ fontSize: 13, color: "#777", marginBottom: 12 }}>
-              Combine two bags to get exactly 5 cups
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-              <DropSlot item={slots.int1} onDrop={(v) => drop("int1", v)} placeholder="drop" />
-              <span style={{ color: "#aaa" }}>+</span>
-              <DropSlot item={slots.int2} onDrop={(v) => drop("int2", v)} placeholder="drop" />
-              {intResult !== null && (
-                <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                  <span style={{ color: "#aaa" }}>=</span>
-                  <code style={code}>{JSON.stringify(intResult)}</code>
-                  {intResult === 5 && <span style={{ color: "#2e7d32", fontSize: 13 }}>✓ 5 cups!</span>}
-                  {intResult !== 5 && typeof intResult === "number" && <span style={{ color: "#888", fontSize: 13 }}>need 5 — try different bags</span>}
-                  {typeof intResult !== "number" && <span style={{ color: "#b45309", fontSize: 13 }}>that's a string — try the flour bags!</span>}
-                </div>
-              )}
-            </div>
-          </div>
+          {/* ── Recipe Card ── */}
+          <div style={{ flex: 1 }}>
+            <h3 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 24 }}>
+              🥞 Classic Pancake Recipe
+            </h3>
 
-          {/* Step 2 — strings */}
-          <div style={{ marginBottom: 28 }}>
-            <div style={{ fontWeight: 700, marginBottom: 4 }}>Step 2 — Label the egg carton</div>
-            <div style={{ fontSize: 13, color: "#777", marginBottom: 12 }}>
-              Combine two labels to write <code style={{ backgroundColor: "#f4f4f4", padding: "1px 6px", borderRadius: 4 }}>"eggs"</code>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-              <DropSlot item={slots.str1} onDrop={(v) => drop("str1", v)} placeholder="drop" />
-              <span style={{ color: "#aaa" }}>+</span>
-              <DropSlot item={slots.str2} onDrop={(v) => drop("str2", v)} placeholder="drop" />
-              {strResult !== null && (
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{ color: "#aaa" }}>=</span>
-                  <code style={code}>"{strResult}"</code>
-                  {strResult === "eggs" && <span style={{ color: "#2e7d32", fontSize: 13 }}>✓ eggs!</span>}
-                  {strResult !== "eggs" && <span style={{ color: "#888", fontSize: 13 }}>not quite — try different labels</span>}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Step 3 — booleans */}
-          <div style={{ marginBottom: 32 }}>
-            <div style={{ fontWeight: 700, marginBottom: 4 }}>Step 3 — Check the pantry</div>
-            <div style={{ fontSize: 13, color: "#777", marginBottom: 12 }}>
-              The recipe needs these ingredients — drag anything from the shelf to check if it's needed
-            </div>
-
-            {/* Recipe checklist */}
-            <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
-              {RECIPE_NEEDS.map((r) => {
-                const dropped = pantryDrops.some((d) => d.category === r.category);
-                return (
-                  <div
-                    key={r.category}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 4,
-                      padding: "4px 10px",
-                      borderRadius: 20,
-                      backgroundColor: dropped ? "#e8f5e9" : "#f5f5f5",
-                      border: `1px solid ${dropped ? "#a5d6a7" : "#e0e0e0"}`,
-                      fontSize: 13,
-                      transition: "all 0.2s",
-                    }}
-                  >
-                    <span>{r.emoji}</span>
-                    <span style={{ color: dropped ? "#2e7d32" : "#888" }}>{r.label}</span>
-                    {dropped && <span style={{ color: "#2e7d32", fontSize: 11 }}>✓</span>}
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Drop container */}
-            <PantryContainer
-              drops={pantryDrops}
-              onDrop={dropToPantry}
-              onRemove={removeFromPantry}
-            />
-
-            {pantryDrops.some((d) => !RECIPE_NEEDS.some((r) => r.category === d.category)) && (
-              <div style={{ fontSize: 12, color: "#b45309", marginTop: 8 }}>
-                Some ingredients aren't in the recipe — isNeeded = false means the answer to "does the recipe need this?" is no
+            {/* Step 1 — integers */}
+            <div style={{ marginBottom: 28 }}>
+              <div style={{ fontWeight: 700, marginBottom: 4 }}>Step 1 — Measure flour</div>
+              <div style={{ fontSize: 13, color: "#6B5E5E", marginBottom: 12 }}>
+                Combine two bags to get exactly 5 cups
               </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                <DropSlot item={slots.int1} onDrop={(v) => drop("int1", v)} placeholder="drop" />
+                <span style={{ color: "#aaa" }}>+</span>
+                <DropSlot item={slots.int2} onDrop={(v) => drop("int2", v)} placeholder="drop" />
+                {intResult !== null && (
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ color: "#6B5E5E" }}>=</span>
+                    <code style={codeChip}>{JSON.stringify(intResult)}</code>
+                    {intResult === 5 && <span style={{ color: "#3A6B35", fontSize: 13 }}>✓ 5 cups!</span>}
+                    {intResult !== 5 && typeof intResult === "number" && <span style={{ color: "#6B5E5E", fontSize: 13 }}>need 5 — try different bags</span>}
+                    {typeof intResult !== "number" && <span style={{ color: "#6B5E5E", fontSize: 13 }}>that's a string — try the flour bags!</span>}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Step 2 — strings */}
+            <div style={{ marginBottom: 28 }}>
+              <div style={{ fontWeight: 700, marginBottom: 4 }}>Step 2 — Label the egg carton</div>
+              <div style={{ fontSize: 13, color: "#6B5E5E", marginBottom: 12 }}>
+                Combine two labels to write <code style={{ backgroundColor: "#f4f4f4", padding: "1px 6px", borderRadius: 4 }}>"eggs"</code>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                <DropSlot item={slots.str1} onDrop={(v) => drop("str1", v)} placeholder="drop" />
+                <span style={{ color: "#aaa" }}>+</span>
+                <DropSlot item={slots.str2} onDrop={(v) => drop("str2", v)} placeholder="drop" />
+                {strResult !== null && (
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ color: "#6B5E5E" }}>=</span>
+                    <code style={codeChip}>"{strResult}"</code>
+                    {strResult === "eggs" && <span style={{ color: "#3A6B35", fontSize: 13 }}>✓ eggs!</span>}
+                    {strResult !== "eggs" && <span style={{ color: "#6B5E5E", fontSize: 13 }}>not quite — try different labels</span>}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Step 3 — booleans */}
+            <div style={{ marginBottom: 32 }}>
+              <div style={{ fontWeight: 700, marginBottom: 4 }}>Step 3 — Check the pantry</div>
+              <div style={{ fontSize: 13, color: "#6B5E5E", marginBottom: 12 }}>
+                The recipe needs these ingredients — drag anything from the shelf to check if it's needed
+              </div>
+
+              {/* Recipe checklist */}
+              <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+                {RECIPE_NEEDS.map((r) => {
+                  const dropped = pantryDrops.some((d) => d.category === r.category);
+                  return (
+                    <div
+                      key={r.category}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 4,
+                        padding: "4px 10px",
+                        borderRadius: 20,
+                        backgroundColor: dropped ? "#e8f5e9" : "#f5f5f5",
+                        border: `1px solid ${dropped ? "#a5d6a7" : "#e0e0e0"}`,
+                        fontSize: 13,
+                        transition: "all 0.2s",
+                      }}
+                    >
+                      <span>{r.emoji}</span>
+                      <span style={{ color: dropped ? "#2e7d32" : "#888" }}>{r.label}</span>
+                      {dropped && <span style={{ color: "#2e7d32", fontSize: 11 }}>✓</span>}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Drop container */}
+              <PantryContainer
+                drops={pantryDrops}
+                onDrop={dropToPantry}
+                onRemove={removeFromPantry}
+              />
+
+              {pantryDrops.some((d) => !RECIPE_NEEDS.some((r) => r.category === d.category)) && (
+                <div style={{ fontSize: 12, color: "#b45309", marginTop: 8 }}>
+                  Some ingredients aren't in the recipe — isNeeded = false means the answer to "does the recipe need this?" is no
+                </div>
+              )}
+            </div>
+
+            {allDone && (
+              <button
+                onClick={() => { completeModule(1); navigate("/"); }}
+                style={{
+                  backgroundColor: "#6b3c2a",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 8,
+                  padding: "12px 28px",
+                  fontSize: 15,
+                  cursor: "pointer",
+                }}
+              >
+                Complete Module ✓
+              </button>
             )}
           </div>
 
-          {allDone && (
-            <button
-              onClick={() => { completeModule(1); navigate("/"); }}
-              style={{
-                backgroundColor: "#6b3c2a",
-                color: "#fff",
-                border: "none",
-                borderRadius: 8,
-                padding: "12px 28px",
-                fontSize: 15,
-                cursor: "pointer",
-                fontFamily: "'Georgia', serif",
-              }}
-            >
-              Complete Module ✓
-            </button>
-          )}
+          {/* ── Code column ── */}
+          <div style={{ width: 320, flexShrink: 0 }}>
+            <CodeFrame title={codeTitle} variant="code">
+              {codeText}
+            </CodeFrame>
+            <CodeFrame title="Output" variant="output">
+              {outputText ||
+                (activeStep === 1
+                  ? "Drag flour bags into the slots to see the total."
+                  : activeStep === 2
+                    ? "Combine labels to see the word appear here."
+                    : "Drag pantry items to see which ones the recipe needs.")}
+            </CodeFrame>
+          </div>
+
         </div>
 
       </div>
@@ -388,7 +534,7 @@ function Minigame() {
 // --- Module Root ---
 export default function IngredientsModule() {
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#e8e0d0", fontFamily: "'Georgia', serif" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#e8e0d0" }}>
       <ModuleShell title="Preparing Ingredients" baseRoute="/modules/ingredients" />
       <Routes>
         <Route index element={<Tutorial />} />

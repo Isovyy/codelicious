@@ -25,7 +25,6 @@ export default function ModuleShell({ title, baseRoute }) {
           padding: "6px 12px",
           cursor: "pointer",
           fontSize: "13px",
-          fontFamily: "'Georgia', serif",
         }}
       >
         ← Menu
@@ -36,7 +35,6 @@ export default function ModuleShell({ title, baseRoute }) {
           color: "#fff",
           fontSize: "18px",
           fontWeight: "700",
-          fontFamily: "'Georgia', serif",
           flex: 1,
         }}
       >
@@ -58,7 +56,6 @@ export default function ModuleShell({ title, baseRoute }) {
                 padding: "6px 14px",
                 cursor: "pointer",
                 fontSize: "13px",
-                fontFamily: "'Georgia', serif",
                 fontWeight: active ? "700" : "400",
               }}
             >

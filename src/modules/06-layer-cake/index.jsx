@@ -14,14 +14,13 @@ const btnStyle = {
   padding: "10px 20px",
   fontSize: 14,
   cursor: "pointer",
-  fontFamily: "'Georgia', serif",
 };
 
 function Tutorial() {
   const navigate = useNavigate();
   return (
     <div style={{ padding: "32px 28px", maxWidth: 760, margin: "0 auto" }}>
-      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 8, fontFamily: "'Georgia', serif" }}>
+      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 8 }}>
         🍰 Layer Cakes — Loops
       </h2>
       <p style={{ color: "#555", marginBottom: 8 }}>
@@ -54,7 +53,7 @@ function Minigame() {
 
   return (
     <div style={{ padding: "32px 28px", maxWidth: 760, margin: "0 auto" }}>
-      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 24, fontFamily: "'Georgia', serif" }}>
+      <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 24 }}>
         🎮 Cake Builder
       </h2>
       <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 16 }}>
@@ -82,7 +81,7 @@ function Minigame() {
 
 export default function LayerCakeModule() {
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#e8e0d0", fontFamily: "'Georgia', serif" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#e8e0d0" }}>
       <ModuleShell title="Layer Cakes" baseRoute="/modules/layer-cake" />
       <Routes>
         <Route index element={<Tutorial />} />
