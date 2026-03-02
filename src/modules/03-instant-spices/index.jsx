@@ -3,15 +3,12 @@ import { useState } from "react";
 import { completeModule } from "../../store/progress";
 import ModuleShell from "../../components/ModuleShell";
 
-// Pantry — carries forward from Modules 1 & 2
-const PANTRY = [
-  { id: "flour",   emoji: "🌾", label: "flour",         value: "flour"   },
-  { id: "eggs",    emoji: "🥚", label: "eggs",          value: "eggs"    },
-  { id: "milk",    emoji: "🥛", label: "oat milk",      value: "oat milk" },
-  { id: "sugar",   emoji: "🍬", label: "brown sugar",   value: "brown sugar" },
-  { id: "baking",  emoji: "🫧", label: "baking powder", value: "baking powder" },
-  { id: "salt",    emoji: "🧂", label: "salt",          value: "salt"    },
-  { id: "butter",  emoji: "🧈", label: "butter",        value: "butter"  },
+// Bowls carried forward from Module 2 (final reassigned state)
+const BOWLS = [
+  { id: "flour", emoji: "🌾", name: "flour", varLabel: "3 cups",   value: "flour" },
+  { id: "eggs",  emoji: "🥚", name: "eggs",  varLabel: '"eggs"',   value: "eggs"  },
+  { id: "milk",  emoji: "🥛", name: "milk",  varLabel: '"oat"',    value: "milk"  },
+  { id: "sugar", emoji: "🍬", name: "sugar", varLabel: '"brown"',  value: "sugar" },
 ];
 
 const TECHNIQUES = [
@@ -70,9 +67,9 @@ function Tutorial() {
         </div>
         <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
           {[
-            { fn: "mix(bowl)",   result: '["flour", "flour", "eggs"]', desc: "all items in order" },
-            { fn: "whisk(bowl)", result: '["flour", "eggs"]',          desc: "duplicates removed" },
-            { fn: "fold(bowl)",  result: "{ flour: 2, eggs: 1 }",      desc: "counts each item"   },
+            { fn: "mix(bowl)",   result: '["flour", "flour", "eggs"]',     desc: "all items in order" },
+            { fn: "whisk(bowl)", result: '["flour", "eggs"]',              desc: "duplicates removed" },
+            { fn: "fold(bowl)",  result: "{ flour: 2, eggs: 1 }",          desc: "counts each item"   },
           ].map(({ fn, result, desc }) => (
             <div key={fn} style={{ flex: 1, minWidth: 160 }}>
               <code style={{ fontSize: 12, color: "#6b3c2a", display: "block", marginBottom: 6 }}>{fn}</code>
@@ -93,10 +90,10 @@ function Tutorial() {
 // --- Minigame ---
 function Minigame() {
   const navigate = useNavigate();
-  const [bowl, setBowl]         = useState([]);
+  const [bowl, setBowl]           = useState([]);
   const [technique, setTechnique] = useState("mix");
-  const [result, setResult]     = useState(null);
-  const [cooked, setCooked]     = useState(false);
+  const [result, setResult]       = useState(null);
+  const [cooked, setCooked]       = useState(false);
   const [cookCount, setCookCount] = useState(0);
 
   function addToBowl(item) {
@@ -117,9 +114,9 @@ function Minigame() {
     setCooked(false);
   }
 
-  function mix(items)   { return items.map((i) => i.value); }
+  function mix(items)  { return items.map((i) => i.value); }
   function whisk(items) { return [...new Set(items.map((i) => i.value))]; }
-  function fold(items)  {
+  function fold(items) {
     return items.reduce((acc, i) => {
       acc[i.value] = (acc[i.value] || 0) + 1;
       return acc;
@@ -138,8 +135,8 @@ function Minigame() {
   }
 
   function renderResult(r) {
-    if (Array.isArray(r))       return JSON.stringify(r);
-    if (typeof r === "object")  return JSON.stringify(r, null, 2);
+    if (Array.isArray(r))      return JSON.stringify(r);
+    if (typeof r === "object") return JSON.stringify(r, null, 2);
     return String(r);
   }
 
@@ -160,36 +157,56 @@ function Minigame() {
 
       <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
 
-        {/* ── Pantry ── */}
-        <div style={{ ...colStyle, width: 160, flexShrink: 0 }}>
-          <div style={{ fontSize: 11, color: "#aaa", textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}>
-            Pantry
+        {/* ── Bowls from Module 2 ── */}
+        <div style={{ ...colStyle, width: 200, flexShrink: 0 }}>
+          <div style={{ fontSize: 11, color: "#aaa", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>
+            Your Bowls
           </div>
-          <div style={{ fontSize: 11, color: "#bbb", marginBottom: 12, fontStyle: "italic" }}>
-            parameters
+          <div style={{ fontSize: 11, color: "#bbb", marginBottom: 16, fontStyle: "italic" }}>
+            from mise en place
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {PANTRY.map((item) => (
-              <button
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {BOWLS.map((item) => (
+              <div
                 key={item.id}
                 onClick={() => addToBowl(item)}
+                title="Click to add to mixing bowl"
                 style={{
                   display: "flex",
+                  flexDirection: "column",
                   alignItems: "center",
-                  gap: 8,
-                  padding: "7px 10px",
-                  borderRadius: 8,
-                  border: "1px solid #e0d4c8",
-                  backgroundColor: "#faf7f4",
+                  gap: 4,
                   cursor: "pointer",
-                  fontSize: 13,
-                  textAlign: "left",
-                  fontFamily: "'Georgia', serif",
                 }}
               >
-                <span style={{ fontSize: 18 }}>{item.emoji}</span>
-                <span style={{ color: "#555" }}>{item.label}</span>
-              </button>
+                <code style={{ fontSize: 12, color: "#6b3c2a", fontWeight: 700 }}>{item.name}</code>
+                <div style={{
+                  width: 90,
+                  height: 72,
+                  borderRadius: "0 0 45px 45px / 0 0 24px 24px",
+                  border: "2px solid #c4a882",
+                  backgroundColor: "#fff",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 2,
+                  transition: "border-color 0.15s, background 0.15s",
+                }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = "#6b3c2a";
+                    e.currentTarget.style.backgroundColor = "#fdf6ef";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = "#c4a882";
+                    e.currentTarget.style.backgroundColor = "#fff";
+                  }}
+                >
+                  <span style={{ fontSize: 22 }}>{item.emoji}</span>
+                  <span style={{ fontSize: 11, fontFamily: "monospace", color: "#555" }}>{item.varLabel}</span>
+                </div>
+                <code style={{ fontSize: 11, color: "#aaa" }}>= {item.varLabel}</code>
+              </div>
             ))}
           </div>
         </div>
@@ -200,10 +217,9 @@ function Minigame() {
             Mixing Bowl
           </div>
           <div style={{ fontSize: 11, color: "#bbb", marginBottom: 12, fontFamily: "monospace" }}>
-            bowl = [ ]
+            parameters
           </div>
 
-          {/* Bowl contents */}
           <div style={{
             minHeight: 72,
             backgroundColor: "#faf7f4",
@@ -240,7 +256,8 @@ function Minigame() {
                 }}
               >
                 <span style={{ fontSize: 16 }}>{item.emoji}</span>
-                <span style={{ color: "#555" }}>{item.label}</span>
+                <code style={{ color: "#6b3c2a", fontSize: 12 }}>{item.name}</code>
+                <span style={{ color: "#bbb", fontSize: 11 }}>= {item.varLabel}</span>
               </button>
             ))}
           </div>
