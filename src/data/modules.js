@@ -2,6 +2,8 @@
 // Central source of truth for all module metadata
 
 import placeholderPreparing from "../assets/placeholders/placeholder_preparing.png";
+import placeholderReassignment from "../assets/placeholders/placeholder_reassignment.png";
+import placeholderFunctions from "../assets/placeholders/placeholder_functions.png";
 
 export const MODULES = [
   {
@@ -17,22 +19,22 @@ export const MODULES = [
   {
     id: 2,
     slug: "mise-en-place",
-    title: "Mise en Place",
+    title: "Swapping Ingredients",
     subtitle: "Variables",
     concepts: ["Variable assignment", "Naming", "Retrieval"],
     analogy: "Prepping everything before cooking — easy to grab when needed",
     route: "/modules/mise-en-place",
-    image: "/assets/images/modules/mise-en-place.jpg",
+    image: placeholderReassignment,
   },
   {
     id: 3,
     slug: "instant-spices",
-    title: "Instant Spices",
+    title: "Assembling Ingredients",
     subtitle: "Functions",
     concepts: ["Defining functions", "Parameters", "Return values"],
     analogy: "Premixed spice packets — call them anytime, get consistent results",
     route: "/modules/instant-spices",
-    image: "/assets/images/modules/instant-spices.jpg",
+    image: placeholderFunctions,
   },
   {
     id: 4,
