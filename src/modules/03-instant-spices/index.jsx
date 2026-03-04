@@ -153,16 +153,20 @@ function Minigame() {
       <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 24 }}>
         🥞 Pancake Kitchen
       </h2>
+      <p style={{ color: "#3B2F2F", marginTop: 0, marginBottom: 20, fontSize: 14, lineHeight: 1.5 }}>
+        Here, each bowl represents a <strong>variable</strong> that stores a specific value (like <code>3 cups</code> or <code>&quot;brown&quot;</code>).
+        You&apos;ll combine these variable bowls and feed them into different functions to see how the results change.
+      </p>
 
       <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
 
         {/* ── Bowls from Module 2 ── */}
         <div style={{ ...colStyle, width: 200, flexShrink: 0 }}>
-          <div style={{ fontSize: 11, color: "#aaa", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>
+          <div style={{ fontSize: 11, color: "#3B2F2F", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>
             Your Bowls
           </div>
-          <div style={{ fontSize: 11, color: "#bbb", marginBottom: 16, fontStyle: "italic" }}>
-            from Swapping Ingredients
+          <div style={{ fontSize: 11, color: "#555", marginBottom: 16, fontStyle: "italic" }}>
+            The variables from the "Swapping Ingredients" module
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {BOWLS.map((item) => (
@@ -214,10 +218,10 @@ function Minigame() {
 
         {/* ── Mixing Bowl ── */}
         <div style={{ ...colStyle, flex: 2 }}>
-          <div style={{ fontSize: 11, color: "#aaa", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>
+          <div style={{ fontSize: 11, color: "#3B2F2F", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>
             Mixing Bowl
           </div>
-          <div style={{ fontSize: 11, color: "#bbb", marginBottom: 12, fontFamily: "monospace" }}>
+          <div style={{ fontSize: 11, color: "#555", marginBottom: 12, fontFamily: "monospace" }}>
             parameters
           </div>
 
@@ -234,7 +238,7 @@ function Minigame() {
             alignItems: "flex-start",
           }}>
             {bowl.length === 0 && (
-              <span style={{ fontSize: 12, color: "#ccc", fontStyle: "italic" }}>
+              <span style={{ fontSize: 12, color: "#7a5a3a", fontStyle: "italic" }}>
                 click ingredients to add them →
               </span>
             )}
@@ -257,14 +261,14 @@ function Minigame() {
               >
                 <span style={{ fontSize: 16 }}>{item.emoji}</span>
                 <code style={{ color: "#6b3c2a", fontSize: 12 }}>{item.name}</code>
-                <span style={{ color: "#bbb", fontSize: 11 }}>= {item.varLabel}</span>
+                <span style={{ color: "#555", fontSize: 11 }}>= {item.varLabel}</span>
               </button>
             ))}
           </div>
 
           {/* Technique picker */}
           <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 12, color: "#888", marginBottom: 8 }}>Technique (function):</div>
+            <div style={{ fontSize: 12, color: "#3B2F2F", marginBottom: 8 }}>Technique (function):</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               {TECHNIQUES.map(({ id, label, desc }) => (
                 <label
@@ -288,7 +292,7 @@ function Minigame() {
                     style={{ accentColor: "#6b3c2a" }}
                   />
                   <code style={{ fontSize: 13, color: "#6b3c2a" }}>{label}</code>
-                  <span style={{ fontSize: 12, color: "#aaa" }}>— {desc}</span>
+                  <span style={{ fontSize: 12, color: "#555" }}>— {desc}</span>
                 </label>
               ))}
             </div>
@@ -311,10 +315,10 @@ function Minigame() {
 
         {/* ── Result ── */}
         <div style={{ ...colStyle, width: 200, flexShrink: 0 }}>
-          <div style={{ fontSize: 11, color: "#aaa", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>
+          <div style={{ fontSize: 11, color: "#3B2F2F", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>
             Result
           </div>
-          <div style={{ fontSize: 11, color: "#bbb", marginBottom: 12, fontStyle: "italic" }}>
+          <div style={{ fontSize: 11, color: "#555", marginBottom: 12, fontStyle: "italic" }}>
             return value
           </div>
 
@@ -349,7 +353,7 @@ function Minigame() {
               )}
             </>
           ) : (
-            <div style={{ color: "#ccc", fontSize: 13, textAlign: "center", marginTop: 24, lineHeight: 1.6 }}>
+            <div style={{ color: "#7a5a3a", fontSize: 13, textAlign: "center", marginTop: 24, lineHeight: 1.6 }}>
               Add ingredients and cook to see the return value
             </div>
           )}

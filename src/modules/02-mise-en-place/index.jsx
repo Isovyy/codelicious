@@ -5,16 +5,16 @@ import ModuleShell from "../../components/ModuleShell";
 
 // Bowls arrive pre-filled from Module 1
 const INITIAL_BOWLS = {
-  flour: { emoji: "🌾", label: "5 cups", value: 5    },
+  flour: { emoji: "🌾", label: "5", value: 5 },
   eggs:  { emoji: "🥚", label: '"eggs"', value: "eggs" },
-  milk:  { emoji: "🥛", label: "true",   value: true  },
-  sugar: { emoji: "🍬", label: "true",   value: true  },
+  milk:  { emoji: "🥛", label: '"dairy milk"', value: "dairy milk" },
+  sugar: { emoji: "🍬", label: '"sugar"', value: "sugar" },
 };
 
 // New values on the shelf to drag from
 const SHELF = [
-  { id: "f1",    emoji: "🌾", label: "1 cup",   value: 1       },
-  { id: "f3",    emoji: "🌾", label: "3 cups",  value: 3       },
+  { id: "f1",    emoji: "🌾", label: "1",   value: 1       },
+  { id: "f3",    emoji: "🌾", label: "3",  value: 3       },
   { id: "oat",   emoji: "🥛", label: '"oat"',   value: "oat"   },
   { id: "hemp",  emoji: "🌿", label: '"hemp"',  value: "hemp"  },
   { id: "brown", emoji: "🍯", label: '"brown"', value: "brown" },
@@ -44,22 +44,23 @@ function Tutorial() {
   return (
     <div style={{ padding: "32px 28px", maxWidth: 760, margin: "0 auto" }}>
       <h2 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 8 }}>
-        🧺 Mise en Place
+        🧺 Swapping Ingredients
       </h2>
       <p style={{ color: "#555", marginBottom: 8 }}>
-        You've identified your ingredients. Now it's time to <strong>get organised</strong>.
+        You've identified your ingredients (aka Data Types). Now it's time to <strong>swap and update</strong> what each bowl is holding.
       </p>
       <p style={{ color: "#555", marginBottom: 32 }}>
-        <em>Mise en place</em> means "everything in its place." A <strong>variable</strong> is
-        a labeled bowl — it holds a value and remembers it. But the contents can be swapped
-        at any time. That's <strong>reassignment</strong>.
+        In this module we focus on <strong>swapping ingredients</strong>. A <strong>variable</strong> is
+        a labeled bowl — it holds a value and remembers it. Each bowl has a name, data type and value. When you drag a new value into a bowl,
+        you&apos;re replacing what was there before while keeping the same label. That&apos;s
+        called <strong>reassignment</strong>.
       </p>
 
       <div style={{ display: "flex", gap: 20, marginBottom: 36 }}>
         {[
-          { emoji: "🏷️", name: "Name",         desc: "The label on the bowl. Always the same — flour is flour." },
-          { emoji: "📦", name: "Value",         desc: "What's inside. Starts with one thing, can become anything." },
-          { emoji: "🔄", name: "Reassignment", desc: "Drop something new in — the old value is replaced. The name stays." },
+          { emoji: "🏷️", name: "Name",         desc: "The label on the bowl. Always the same, if you label the bowl 'flour', it will always be 'flour'." },
+          { emoji: "📦", name: "Value",         desc: "What's inside. Starts with one thing, but can change later on if its the same type of data. " },
+          { emoji: "🔄", name: "Reassignment", desc: "Drop something new in, the old value is replaced. The name of the bowl stays the same." },
         ].map(({ emoji, name, desc }) => (
           <div key={name} style={{ flex: 1, borderBottom: "2px solid #c4a882", paddingBottom: 16 }}>
             <div style={{ fontSize: 36, marginBottom: 8 }}>{emoji}</div>
@@ -80,7 +81,7 @@ function Tutorial() {
             <div style={{ fontSize: 11, color: "#aaa", marginBottom: 6 }}>before</div>
             <div style={{ width: 90, height: 70, borderRadius: "0 0 45px 45px / 0 0 24px 24px", border: "2px solid #c4a882", backgroundColor: "#fafafa", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 2 }}>
               <span style={{ fontSize: 20 }}>🌾</span>
-              <span style={{ fontSize: 11, fontFamily: "monospace", color: "#555" }}>5 cups</span>
+              <span style={{ fontSize: 11, fontFamily: "monospace", color: "#555" }}>5</span>
             </div>
             <code style={{ fontSize: 11, color: "#aaa", display: "block", marginTop: 4 }}>flour = 5</code>
           </div>
@@ -89,10 +90,10 @@ function Tutorial() {
 
           {/* New value */}
           <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: 11, color: "#aaa", marginBottom: 6 }}>drop in</div>
+            <div style={{ fontSize: 11, color: "#aaa", marginBottom: 6 }}>reassign new value</div>
             <div style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e0d4c8", backgroundColor: "#fff", display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
               <span style={{ fontSize: 20 }}>🌾</span>
-              <span style={{ fontSize: 11, fontFamily: "monospace", color: "#555" }}>3 cups</span>
+              <span style={{ fontSize: 11, fontFamily: "monospace", color: "#555" }}>3</span>
             </div>
           </div>
 
@@ -103,7 +104,7 @@ function Tutorial() {
             <div style={{ fontSize: 11, color: "#2e7d32", marginBottom: 6 }}>after</div>
             <div style={{ width: 90, height: 70, borderRadius: "0 0 45px 45px / 0 0 24px 24px", border: "2px solid #a5d6a7", backgroundColor: "#f1f8f2", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 2 }}>
               <span style={{ fontSize: 20 }}>🌾</span>
-              <span style={{ fontSize: 11, fontFamily: "monospace", color: "#2e7d32" }}>3 cups</span>
+              <span style={{ fontSize: 11, fontFamily: "monospace", color: "#2e7d32" }}>3</span>
             </div>
             <code style={{ fontSize: 11, color: "#2e7d32", display: "block", marginTop: 4 }}>flour = 3</code>
           </div>
@@ -116,6 +117,8 @@ function Tutorial() {
           </div>
         </div>
       </div>
+
+      
 
       <button onClick={() => navigate("minigame")} style={btnStyle}>
         Set Up My Station →
@@ -166,20 +169,114 @@ function Bowl({ name, stored, onDrop }) {
   );
 }
 
+function CodeFrame({ title, children, variant = "code" }) {
+  const palette =
+    variant === "output"
+      ? {
+          shellBg: "#f6decc",
+          toolbarBg: "#f9c79a",
+          bodyBg: "#fff6e9",
+          titleColor: "#3B2F2F",
+        }
+      : {
+          shellBg: "#d9e3cf",
+          toolbarBg: "#b7dfe0",
+          bodyBg: "#d9f0f2",
+          titleColor: "#3B2F2F",
+        };
+
+  return (
+    <div
+      style={{
+        backgroundColor: palette.shellBg,
+        borderRadius: 18,
+        padding: 0,
+        boxShadow: "0 6px 0 rgba(65, 55, 47, 0.8)",
+        border: "2px solid #41372f",
+        marginBottom: 18,
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "8px 10px",
+          borderRadius: "16px 16px 0 0",
+          backgroundColor: palette.toolbarBg,
+          boxSizing: "border-box",
+        }}
+      >
+        <span
+          style={{
+            fontSize: 14,
+            fontWeight: 700,
+            color: palette.titleColor,
+          }}
+        >
+          {title}
+        </span>
+        <div style={{ display: "flex", gap: 4 }}>
+          <span style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "#5fb878" }} />
+          <span style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "#f2c14f" }} />
+          <span style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "#e67b7b" }} />
+        </div>
+      </div>
+      <pre
+        style={{
+          margin: 0,
+          padding: "10px 12px 12px",
+          borderRadius: "0 0 16px 16px",
+          backgroundColor: palette.bodyBg,
+          fontFamily: "monospace",
+          fontSize: 13,
+          lineHeight: 1.5,
+          whiteSpace: "pre-wrap",
+          color: "#3B2F2F",
+        }}
+      >
+        {children}
+      </pre>
+    </div>
+  );
+}
+
 // --- Minigame ---
 function Minigame() {
   const navigate = useNavigate();
   const [bowls, setBowls]   = useState(INITIAL_BOWLS);
   const [history, setHistory] = useState([]);
+  const [typeError, setTypeError] = useState(null);
+
+  function typeNoun(t, plural) {
+    if (t === "number") return plural ? "integers" : "integer";
+    if (t === "string") return plural ? "strings" : "string";
+    if (t === "boolean") return plural ? "booleans" : "boolean";
+    return plural ? `${t}s` : t;
+  }
 
   function drop(bowlName, item) {
     const prev = bowls[bowlName];
+    const expectedType = typeof prev.value;
+    const incomingType = typeof item.value;
+
+    if (expectedType !== incomingType) {
+      const msg = `${typeNoun(expectedType, true)} cannot store ${typeNoun(incomingType, false)} values!`;
+      setTypeError(msg);
+      setHistory((h) => [
+        { bowl: bowlName, from: prev.label, to: item.label, ok: false, message: msg },
+        ...h,
+      ].slice(0, 8));
+      return;
+    }
+
+    setTypeError(null);
     setBowls((b) => ({
       ...b,
       [bowlName]: { emoji: item.emoji, label: item.label, value: item.value },
     }));
     setHistory((h) => [
-      { bowl: bowlName, from: prev.label, to: item.label },
+      { bowl: bowlName, from: prev.label, to: item.label, ok: true },
       ...h,
     ].slice(0, 8));
   }
@@ -192,15 +289,58 @@ function Minigame() {
   const taskDone = (t) => bowls[t.bowl].value === t.value;
   const allDone  = TASKS.every(taskDone);
 
+  function formatValue(v) {
+    if (typeof v === "string") return `"${v}"`;
+    if (typeof v === "boolean") return v ? "true" : "false";
+    if (typeof v === "number") return String(v);
+    if (v === null) return "null";
+    if (v === undefined) return "undefined";
+    return JSON.stringify(v);
+  }
+
+  function typeKeyword(v) {
+    if (typeof v === "number") return "int";
+    if (typeof v === "string") return "string";
+    if (typeof v === "boolean") return "bool";
+    return "var";
+  }
+
+  const codeTitle = "Variables";
+  const codeText = [
+    "// NOTE: Lines that start with // are comments — they explain code, but don't run.",
+    "",
+    "// Bowls are variables (labeled containers that store values)",
+    `int bowl1 = ${formatValue(bowls.flour.value)}; `,
+    `string bowl2 = ${formatValue(bowls.eggs.value)};`,
+    `${typeKeyword(bowls.milk.value)} milk_Type = ${formatValue(bowls.milk.value)};`,
+    `${typeKeyword(bowls.sugar.value)} sugar_Type = ${formatValue(bowls.sugar.value)};`,
+    `bool tasks_Done = ${allDone ? "true" : "false"};`,
+    "",
+    'print("Ingredients");',
+    'print(bowl1 + " cups of flour");',
+    "print(bowl2);",
+    "print(milk_Type);",
+    "print(sugar_Type);",
+  ].join("\n");
+
+  const outputText = [
+    "Ingredients",
+    `${formatValue(bowls.flour.value)} cups of flour`,
+    String(bowls.eggs.value),
+    String(bowls.milk.value),
+    String(bowls.sugar.value),
+  ].join("\n");
+
   return (
-    <div style={{ padding: "32px 28px", maxWidth: 900, margin: "0 auto" }}>
-      <div style={{ display: "flex", gap: 40, alignItems: "flex-start" }}>
+    <div style={{ padding: "32px 28px", maxWidth: 1200, margin: "0 auto" }}>
+      <div style={{ display: "flex", gap: 28, alignItems: "flex-start" }}>
 
         {/* ── Left: shelf + history ── */}
         <div style={{ width: 180, flexShrink: 0 }}>
           <h3 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 16 }}>
             Shelf
           </h3>
+          <div style={{ marginBottom: 20, color: "black",fontSize: 11 }}><p>Note: Assume the numbers represent how many cups of flour you have in that bowl.</p></div>
           <div style={{ borderBottom: "2px solid #c4a882", paddingBottom: 14, marginBottom: 20 }}>
             <div style={{ fontSize: 11, color: "#888", textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>
               New values
@@ -244,8 +384,16 @@ function Minigame() {
                     <div style={{ fontSize: 11, fontFamily: "monospace", color: "#555" }}>
                       <span style={{ textDecoration: "line-through", color: "#bbb" }}>{h.from}</span>
                       {" → "}
-                      <span style={{ color: "#2e7d32" }}>{h.to}</span>
+                      <span style={{ color: h.ok ? "#2e7d32" : "#b91c1c" }}>
+                        {h.to}
+                        {!h.ok ? " (rejected)" : ""}
+                      </span>
                     </div>
+                    {!h.ok && (
+                      <div style={{ fontSize: 11, color: "#b91c1c", marginTop: 2 }}>
+                        {h.message}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -253,8 +401,8 @@ function Minigame() {
           )}
         </div>
 
-        {/* ── Right: tasks + bowls ── */}
-        <div style={{ flex: 1 }}>
+        {/* ── Middle: tasks + bowls ── */}
+        <div style={{ flex: 1, minWidth: 420 }}>
           <h3 style={{ color: "#6b3c2a", marginTop: 0, marginBottom: 20 }}>
             🧑‍🍳 Recipe Update
           </h3>
@@ -304,13 +452,44 @@ function Minigame() {
             </p>
           )}
 
-          <button
-            onClick={() => { completeModule(2); navigate("/"); }}
-            disabled={!allDone}
-            style={{ ...btnStyle, opacity: allDone ? 1 : 0.4, cursor: allDone ? "pointer" : "default" }}
-          >
-            Complete Module ✓
-          </button>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <button
+              onClick={() => { completeModule(2); navigate("/"); }}
+              disabled={!allDone}
+              style={{ ...btnStyle, opacity: allDone ? 1 : 0.4, cursor: allDone ? "pointer" : "default" }}
+            >
+              Complete Module ✓
+            </button>
+
+            {typeError && (
+              <div
+                role="alert"
+                style={{
+                  marginLeft: "auto",
+                  backgroundColor: "#fff7ed",
+                  border: "1px solid #fdba74",
+                  color: "#9a3412",
+                  padding: "10px 12px",
+                  borderRadius: 8,
+                  fontSize: 13,
+                  lineHeight: 1.4,
+                  maxWidth: 360,
+                }}
+              >
+                {typeError}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ── Code column ── */}
+        <div style={{ width: 320, flexShrink: 0 }}>
+          <CodeFrame title={codeTitle} variant="code">
+            {codeText}
+          </CodeFrame>
+          <CodeFrame title="Output" variant="output">
+            {outputText}
+          </CodeFrame>
         </div>
 
       </div>
@@ -322,7 +501,7 @@ function Minigame() {
 export default function MiseEnPlaceModule() {
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#e8e0d0" }}>
-      <ModuleShell title="Mise en Place" baseRoute="/modules/mise-en-place" />
+      <ModuleShell title="Swapping Ingredients" baseRoute="/modules/mise-en-place" />
       <Routes>
         <Route index element={<Tutorial />} />
         <Route path="minigame" element={<Minigame />} />
