@@ -45,7 +45,7 @@ function Tutorial() {
 
       <div style={{ display: "flex", gap: 20, marginBottom: 36 }}>
         {[
-          { emoji: "🌾", name: "Integer", desc: "Whole numbers. Quantities dissolve together when combined." },
+          { emoji: "🌾", name: "Integer", desc: "These are whole numbers, like 1, 100, 23, etc. For example, 1 bag of flour." },
           { emoji: "🥚", name: "String",  desc: 'Text. Labels line up side by side — "eg" + "gs" = "eggs".' },
           { emoji: "✅", name: "Boolean", desc: "True or false. An ingredient is in the pantry, or it isn't." },
         ].map(({ emoji, name, desc }) => (
@@ -401,15 +401,15 @@ function Minigame() {
             </h3>
 
             {/* Step 1 — integers */}
-            <div style={{ marginBottom: 28 }}>
+            <div style={{ marginBottom: 28, boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)", padding: "16px", borderRadius: 16,outline: "1px solid #c4a882" }}>
               <div style={{ fontWeight: 700, marginBottom: 4 }}>Step 1 — Measure flour</div>
               <div style={{ fontSize: 13, color: "#6B5E5E", marginBottom: 12 }}>
                 Combine two bags to get exactly 5 cups
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-                <DropSlot item={slots.int1} onDrop={(v) => drop("int1", v)} placeholder="drop" />
+                <DropSlot item={slots.int1} onDrop={(v) => drop("int1", v)} placeholder="var1" />
                 <span style={{ color: "#aaa" }}>+</span>
-                <DropSlot item={slots.int2} onDrop={(v) => drop("int2", v)} placeholder="drop" />
+                <DropSlot item={slots.int2} onDrop={(v) => drop("int2", v)} placeholder="var2" />
                 {intResult !== null && (
                   <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                     <span style={{ color: "#6B5E5E" }}>=</span>
@@ -423,7 +423,7 @@ function Minigame() {
             </div>
 
             {/* Step 2 — strings */}
-            <div style={{ marginBottom: 28 }}>
+            <div style={{ marginBottom: 28, boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)", padding: "16px", borderRadius: 16,outline: "1px solid #c4a882" }}>
               <div style={{ fontWeight: 700, marginBottom: 4 }}>Step 2 — Label the egg carton</div>
               <div style={{ fontSize: 13, color: "#6B5E5E", marginBottom: 12 }}>
                 Combine two labels to write <code style={{ backgroundColor: "#f4f4f4", padding: "1px 6px", borderRadius: 4 }}>"eggs"</code>
@@ -444,7 +444,7 @@ function Minigame() {
             </div>
 
             {/* Step 3 — booleans */}
-            <div style={{ marginBottom: 32 }}>
+            <div style={{ marginBottom: 28, boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)", padding: "16px", borderRadius: 16,outline: "1px solid #c4a882" }}>
               <div style={{ fontWeight: 700, marginBottom: 4 }}>Step 3 — Check the pantry</div>
               <div style={{ fontSize: 13, color: "#6B5E5E", marginBottom: 12 }}>
                 The recipe needs these ingredients — drag anything from the shelf to check if it's needed
