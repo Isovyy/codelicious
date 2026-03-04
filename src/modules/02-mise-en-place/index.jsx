@@ -15,17 +15,17 @@ const INITIAL_BOWLS = {
 const SHELF = [
   { id: "f1",    emoji: "🌾", label: "1",   value: 1       },
   { id: "f3",    emoji: "🌾", label: "3",  value: 3       },
-  { id: "oat",   emoji: "🥛", label: '"oat"',   value: "oat"   },
+  { id: "oat",   emoji: "🥛", label: '"oat milk"',   value: "oat milk"   },
   { id: "hemp",  emoji: "🌿", label: '"hemp"',  value: "hemp"  },
-  { id: "brown", emoji: "🍯", label: '"brown"', value: "brown" },
+  { id: "brown", emoji: "🍯", label: '"brown sugar"', value: "brown sugar" },
   { id: "raw",   emoji: "🌾", label: '"raw"',   value: "raw"   },
 ];
 
 // Tasks the learner must complete by reassigning the right bowl
 const TASKS = [
   { id: 1, bowl: "flour", value: 3,       instruction: "The recipe changed — we only need 3 cups of flour, not 5." },
-  { id: 2, bowl: "milk",  value: "oat",   instruction: "Going dairy-free? Swap milk for oat milk."                 },
-  { id: 3, bowl: "sugar", value: "brown", instruction: "Use brown sugar for a richer flavour."                     },
+  { id: 2, bowl: "milk",  value: "oat milk",   instruction: "Going dairy-free? Swap milk for oat milk."                 },
+  { id: 3, bowl: "sugar", value: "brown sugar", instruction: "Use brown sugar for a richer flavour."                     },
 ];
 
 const btnStyle = {

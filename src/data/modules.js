@@ -1,9 +1,9 @@
 // src/data/modules.js
 // Central source of truth for all module metadata
 
-import placeholderPreparing from "../assets/placeholders/placeholder_preparing.png";
-import placeholderReassignment from "../assets/placeholders/placeholder_reassignment.png";
-import placeholderFunctions from "../assets/placeholders/placeholder_functions.png";
+import placeholderPreparing from "../assets/placeholders/module1.png";
+import placeholderReassignment from "../assets/placeholders/module2.png";
+import placeholderFunctions from "../assets/placeholders/module3.png";
 
 export const MODULES = [
   {
