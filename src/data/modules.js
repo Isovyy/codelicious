@@ -1,6 +1,8 @@
 // src/data/modules.js
 // Central source of truth for all module metadata
 
+import placeholderPreparing from "../assets/placeholders/placeholder_preparing.png";
+
 export const MODULES = [
   {
     id: 1,
@@ -10,7 +12,7 @@ export const MODULES = [
     concepts: ["Integer", "String", "Boolean"],
     analogy: "Ingredients in cooking — diced or minced, raw or prepared",
     route: "/modules/ingredients",
-    image: "/assets/images/modules/ingredients.jpg",
+    image: placeholderPreparing,
   },
   {
     id: 2,
