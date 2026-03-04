@@ -14,7 +14,7 @@ const BOWLS = [
 const TECHNIQUES = [
   { id: "bake", label: "bake(bowl)", desc: "return all ingredients in order" },
   { id: "fry",  label: "fry(bowl)",  desc: "return unique ingredients only"  },
-  { id: "mix",  label: "mix(bowl)",  desc: "count how much of each"          },
+  { id: "count",  label: "count(bowl)",  desc: "count how much of each"          },
 ];
 
 const btnStyle = {
@@ -62,13 +62,13 @@ function Tutorial() {
       {/* Same inputs, different function example */}
       <div style={{ backgroundColor: "#fff", borderRadius: 10, padding: "20px 24px", marginBottom: 36, boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
         <div style={{ fontSize: 12, color: "#aaa", textTransform: "uppercase", letterSpacing: 1, marginBottom: 14 }}>
-          Example — same bowl, different technique
+          Example — same bowl, different technique cook different foods
         </div>
         <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
           {[
-            { fn: "bake(bowl)", result: '["flour", "flour", "eggs"]', desc: "all items in order" },
-            { fn: "fry(bowl)",  result: '["flour", "eggs"]',          desc: "duplicates removed" },
-            { fn: "mix(bowl)",  result: "{ flour: 2, eggs: 1 }",      desc: "counts each item"   },
+            { fn: "bake(bowl)", result: '["flour", "flour", "eggs"]', desc: "organizes all items in order" },
+            { fn: "fry(bowl)",  result: '["flour", "eggs"]',          desc: "merges duplicates into one" },
+            { fn: "count(bowl)",  result: "{ flour: 2, eggs: 1 }",      desc: "counts each item"   },
           ].map(({ fn, result, desc }) => (
             <div key={fn} style={{ flex: 1, minWidth: 160 }}>
               <code style={{ fontSize: 12, color: "#6b3c2a", display: "block", marginBottom: 6 }}>{fn}</code>
@@ -90,7 +90,7 @@ function Tutorial() {
 function Minigame() {
   const navigate = useNavigate();
   const [bowl, setBowl]           = useState([]);
-  const [technique, setTechnique] = useState("mix");
+  const [technique, setTechnique] = useState("count");
   const [result, setResult]       = useState(null);
   const [cooked, setCooked]       = useState(false);
   const [cookCount, setCookCount] = useState(0);
@@ -127,8 +127,8 @@ function Minigame() {
       if (!hasFlour && hasEggs && !hasMilk && !hasSugar) return "🍳";
     }
 
-    // mix
-    if (technique === "mix") {
+    // count
+    if (technique === "count") {
       if (hasMilk && hasSugar) return "🍨";
     }
 
@@ -166,7 +166,7 @@ function Minigame() {
     return [...new Set(items.map((i) => i.value))];
   }
 
-  function mix(items) {
+  function count(items) {
     return items.reduce((acc, i) => {
       acc[i.value] = (acc[i.value] || 0) + i.quantity;
       return acc;
@@ -178,7 +178,7 @@ function Minigame() {
     let out;
     if (technique === "bake") out = bake(bowl);
     if (technique === "fry")  out = fry(bowl);
-    if (technique === "mix")  out = mix(bowl);
+    if (technique === "count")  out = count(bowl);
     setResult(out);
     setCooked(true);
     setCookCount((c) => c + 1);
