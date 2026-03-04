@@ -247,6 +247,7 @@ function Minigame() {
   const [bowls, setBowls]   = useState(INITIAL_BOWLS);
   const [history, setHistory] = useState([]);
   const [typeError, setTypeError] = useState(null);
+  const [showCode, setShowCode] = useState(false);
 
   function typeNoun(t, plural) {
     if (t === "number") return plural ? "integers" : "integer";
@@ -310,17 +311,18 @@ function Minigame() {
     "// NOTE: Lines that start with // are comments — they explain code, but don't run.",
     "",
     "// Bowls are variables (labeled containers that store values)",
-    `int bowl1 = ${formatValue(bowls.flour.value)}; `,
-    `string bowl2 = ${formatValue(bowls.eggs.value)};`,
+    `int cups_of_flour = ${formatValue(bowls.flour.value)};`,
+    `string eggs = ${formatValue(bowls.eggs.value)};`,
     `${typeKeyword(bowls.milk.value)} milk_Type = ${formatValue(bowls.milk.value)};`,
     `${typeKeyword(bowls.sugar.value)} sugar_Type = ${formatValue(bowls.sugar.value)};`,
     `bool tasks_Done = ${allDone ? "true" : "false"};`,
     "",
     'print("Ingredients");',
-    'print(bowl1 + " cups of flour");',
-    "print(bowl2);",
+    'print(cups_of_flour + " cups of flour");',
+    "print(eggs);",
     "print(milk_Type);",
     "print(sugar_Type);",
+    'print("tasks completed: " + tasks_Done);',
   ].join("\n");
 
   const outputText = [
@@ -329,10 +331,31 @@ function Minigame() {
     String(bowls.eggs.value),
     String(bowls.milk.value),
     String(bowls.sugar.value),
+    `tasks completed: ${allDone ? "true" : "false"}`,
   ].join("\n");
 
   return (
     <div style={{ padding: "32px 28px", maxWidth: 1200, margin: "0 auto" }}>
+      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <span style={{ fontSize: 12, color: "#6b3c2a", fontWeight: 600 }}>
+          Advanced Learning →
+        </span>
+        <button
+          onClick={() => setShowCode((v) => !v)}
+          style={{
+            backgroundColor: "#41372f",
+            color: "#fff",
+            border: "none",
+            borderRadius: 999,
+            padding: "6px 14px",
+            fontSize: 12,
+            cursor: "pointer",
+          }}
+        >
+          {showCode ? "Hide code" : "Show code"}
+        </button>
+      </div>
+
       <div style={{ display: "flex", gap: 28, alignItems: "flex-start" }}>
 
         {/* ── Left: shelf + history ── */}
@@ -483,14 +506,16 @@ function Minigame() {
         </div>
 
         {/* ── Code column ── */}
-        <div style={{ width: 320, flexShrink: 0 }}>
-          <CodeFrame title={codeTitle} variant="code">
-            {codeText}
-          </CodeFrame>
-          <CodeFrame title="Output" variant="output">
-            {outputText}
-          </CodeFrame>
-        </div>
+        {showCode && (
+          <div style={{ width: 320, flexShrink: 0 }}>
+            <CodeFrame title={codeTitle} variant="code">
+              {codeText}
+            </CodeFrame>
+            <CodeFrame title="Output" variant="output">
+              {outputText}
+            </CodeFrame>
+          </div>
+        )}
 
       </div>
     </div>
