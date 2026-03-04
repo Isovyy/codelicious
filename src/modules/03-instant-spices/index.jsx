@@ -7,14 +7,14 @@ import ModuleShell from "../../components/ModuleShell";
 const BOWLS = [
   { id: "flour", emoji: "🌾", name: "flour", varLabel: "3 cups",   value: "flour" },
   { id: "eggs",  emoji: "🥚", name: "eggs",  varLabel: '"eggs"',   value: "eggs"  },
-  { id: "milk",  emoji: "🥛", name: "milk",  varLabel: '"oat"',    value: "milk"  },
-  { id: "sugar", emoji: "🍬", name: "sugar", varLabel: '"brown"',  value: "sugar" },
+  { id: "milk",  emoji: "🥛", name: "milk",  varLabel: '"oat milk"',    value: "milk"  },
+  { id: "sugar", emoji: "🍬", name: "sugar", varLabel: '"brown sugar"',  value: "sugar" },
 ];
 
 const TECHNIQUES = [
-  { id: "mix",   label: "mix(bowl)",   desc: "return all ingredients in order" },
-  { id: "whisk", label: "whisk(bowl)", desc: "return unique ingredients only"  },
-  { id: "fold",  label: "fold(bowl)",  desc: "count how much of each"          },
+  { id: "bake",   label: "bake(bowl)",   desc: "return all ingredients in order" },
+  { id: "fry", label: "fry(bowl)", desc: "return unique ingredients only"  },
+  { id: "mix",  label: "mix(bowl)",  desc: "count how much of each"          },
 ];
 
 const btnStyle = {
@@ -66,9 +66,9 @@ function Tutorial() {
         </div>
         <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
           {[
-            { fn: "mix(bowl)",   result: '["flour", "flour", "eggs"]',     desc: "all items in order" },
-            { fn: "whisk(bowl)", result: '["flour", "eggs"]',              desc: "duplicates removed" },
-            { fn: "fold(bowl)",  result: "{ flour: 2, eggs: 1 }",          desc: "counts each item"   },
+            { fn: "bake(bowl)",   result: '["flour", "flour", "eggs"]',     desc: "all items in order" },
+            { fn: "fry(bowl)", result: '["flour", "eggs"]',              desc: "duplicates removed" },
+            { fn: "mix(bowl)",  result: "{ flour: 2, eggs: 1 }",          desc: "counts each item"   },
           ].map(({ fn, result, desc }) => (
             <div key={fn} style={{ flex: 1, minWidth: 160 }}>
               <code style={{ fontSize: 12, color: "#6b3c2a", display: "block", marginBottom: 6 }}>{fn}</code>
@@ -95,6 +95,113 @@ function Minigame() {
   const [cooked, setCooked]       = useState(false);
   const [cookCount, setCookCount] = useState(0);
 
+  function dragStart(e, item) {
+  e.dataTransfer.setData("application/json", JSON.stringify(item));
+  e.dataTransfer.effectAllowed = "copy";
+}
+
+function getResultEmoji(items, technique) {
+  const values = items.map((i) => i.value);
+
+  const hasFlour = values.includes("flour");
+  const hasEggs  = values.includes("eggs");
+  const hasMilk  = values.includes("milk");
+  const hasSugar = values.includes("sugar");
+
+  //bake
+  if (technique==="bake"){
+  // no flour -> eggs + sugar -> custard
+    if (hasEggs && hasSugar && hasMilk) {
+      return "🍮";
+    }
+  
+    // No milk -> Cake
+    if (hasFlour && hasEggs && hasSugar && !hasMilk) {
+      return "🍰";
+    }
+    
+  // No sugar -> pizza
+    if (hasFlour && hasEggs && hasMilk && !hasSugar) {
+      return "🍕";
+    }
+
+     // flour + eggs -> bread 
+    if (hasFlour && hasEggs) {
+      return "🍞";
+    }
+
+    // Just milk
+    if (!hasFlour && !hasEggs && hasMilk && !hasSugar) {
+      return "🧀";
+    }
+
+     // Just sugar
+    if (!hasFlour && !hasEggs && !hasMilk && hasSugar) {
+      return "🍫";
+    }
+  }
+
+  // fry
+  if (technique==="fry"){
+    // all four -> Pancakes
+    if (hasFlour && hasEggs && hasMilk && hasSugar) {
+      return "🥞";
+    }
+
+    // No eggs → waffles
+    if (hasFlour && hasMilk && hasSugar && !hasEggs) {
+      return "🧇";
+    }
+
+    // flour + sugar -> lucky cookie
+    if (hasFlour && hasSugar) {
+      return "🥠";
+    }
+
+    if (hasFlour && hasEggs) {
+      return "🍜";
+    }
+
+    // Just eggs
+  if (!hasFlour && hasEggs && !hasMilk && !hasSugar) {
+    return "🍳";
+  }
+  }
+
+  // mix
+  if (technique==="mix"){
+    // if milk + sugar -> icecream
+    if (hasMilk && hasSugar){
+      return "🍨";
+    }
+  }
+
+  // if egg + milk -> scrambled eggs (no emoji)
+
+  // Just flour
+  if (hasFlour && !hasEggs && !hasMilk && !hasSugar) {
+    return "🌾";
+  }
+
+  // Just sugar
+  if (!hasFlour && !hasEggs && !hasMilk && hasSugar) {
+    return "🍬";
+  }
+
+  // Just milk
+  if (!hasFlour && !hasEggs && hasMilk && !hasSugar) {
+    return "🥛";
+  }
+
+  // Just eggs
+  if (!hasFlour && hasEggs && !hasMilk && !hasSugar) {
+    return "🥚";
+  }
+
+  // Default mystery food
+  return "💩";
+}
+
   function addToBowl(item) {
     setBowl((b) => [...b, item]);
     setResult(null);
@@ -113,9 +220,9 @@ function Minigame() {
     setCooked(false);
   }
 
-  function mix(items)  { return items.map((i) => i.value); }
-  function whisk(items) { return [...new Set(items.map((i) => i.value))]; }
-  function fold(items) {
+  function bake(items)  { return items.map((i) => i.value); }
+  function fry(items) { return [...new Set(items.map((i) => i.value))]; }
+  function mix(items) {
     return items.reduce((acc, i) => {
       acc[i.value] = (acc[i.value] || 0) + 1;
       return acc;
@@ -125,9 +232,9 @@ function Minigame() {
   function cook() {
     if (bowl.length === 0) return;
     let out;
-    if (technique === "mix")   out = mix(bowl);
-    if (technique === "whisk") out = whisk(bowl);
-    if (technique === "fold")  out = fold(bowl);
+    if (technique === "bake")   out = bake(bowl);
+    if (technique === "fry") out = fry(bowl);
+    if (technique === "mix")  out = mix(bowl);
     setResult(out);
     setCooked(true);
     setCookCount((c) => c + 1);
@@ -169,11 +276,17 @@ function Minigame() {
             The variables from the "Swapping Ingredients" module
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            {BOWLS.map((item) => (
+            {/* {BOWLS.map((item) => (
               <div
                 key={item.id}
                 onClick={() => addToBowl(item)}
-                title="Click to add to mixing bowl"
+                title="Click to add to mixing bowl" */}
+                {BOWLS.map((item) => (
+                <div
+                  key={item.id}
+                  draggable
+                  onDragStart={(e) => dragStart(e, item)}
+                  title="Drag into mixing bowl"
                 style={{
                   display: "flex",
                   flexDirection: "column",
@@ -225,7 +338,16 @@ function Minigame() {
             parameters
           </div>
 
-          <div style={{
+          <div 
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => {
+            e.preventDefault();
+            const item = JSON.parse(
+              e.dataTransfer.getData("application/json")
+            );
+            addToBowl(item);
+          }}
+          style={{
             minHeight: 72,
             backgroundColor: "#faf7f4",
             borderRadius: 8,
@@ -239,7 +361,7 @@ function Minigame() {
           }}>
             {bowl.length === 0 && (
               <span style={{ fontSize: 12, color: "#7a5a3a", fontStyle: "italic" }}>
-                click ingredients to add them →
+                drag ingredients to add them, click to remove them
               </span>
             )}
             {bowl.map((item, i) => (
@@ -324,7 +446,10 @@ function Minigame() {
 
           {cooked ? (
             <>
-              <div style={{ fontSize: 48, textAlign: "center", marginBottom: 12 }}>🥞</div>
+              {/* <div style={{ fontSize: 48, textAlign: "center", marginBottom: 12 }}>🥞</div> */}
+              <div style={{ fontSize: 48, textAlign: "center", marginBottom: 12 }}>
+                {getResultEmoji(bowl, technique)}
+              </div>
               <pre style={{
                 backgroundColor: "#f4f4f4",
                 borderRadius: 8,
