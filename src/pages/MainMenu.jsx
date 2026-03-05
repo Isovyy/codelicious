@@ -181,24 +181,25 @@ export default function MainMenu() {
             letterSpacing: "0.5px",
           }}
         >
-          CodeKitchen
-        </span>
-        <div style={{ marginLeft: "auto" }}>
-          <button
-            onClick={unlockThreeForTest}
-            title="Dev: unlock first 3 modules"
-            style={{
-              background: "#fff",
-              border: "none",
-              borderRadius: 8,
-              padding: "6px 10px",
-              cursor: "pointer",
-              fontSize: 13,
-            }}
-          >
-            Unlock 3 (dev)
-          </button>
-        </div>
+          Codelicious
+          </span>
+<div style={{ marginLeft: "auto" }}>
+  <button
+    onClick={unlockThreeForTest}
+    title="Dev: unlock first 3 modules"
+    style={{
+      background: "#fff",
+      border: "none",
+      borderRadius: 8,
+      padding: "6px 10px",
+      cursor: "pointer",
+      fontSize: 13,
+      color: "black"
+    }}
+  >
+    Unlock Modules
+  </button>
+</div>
       </nav>
 
       {/* Module Grid */}

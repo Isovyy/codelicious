@@ -7,8 +7,8 @@ import ModuleShell from "../../components/ModuleShell";
 const BOWLS = [
   { id: "flour", emoji: "🌾", name: "flour", varLabel: "3", value: "flour", quantity: 3 },
   { id: "eggs",  emoji: "🥚", name: "eggs",  varLabel: '"eggs"', value: "eggs", quantity: 1 },
-  { id: "milk",  emoji: "🥛", name: "milk",  varLabel: '"oat milk"', value: "milk", quantity: 1 },
-  { id: "sugar", emoji: "🍬", name: "sugar", varLabel: '"brown sugar"', value: "sugar", quantity: 1 },
+  { id: "milk",  emoji: "🥛", name: "milk_Type",  varLabel: '"oat milk"', value: "milk", quantity: 1 },
+  { id: "sugar", emoji: "🍬", name: "sugar_Type", varLabel: '"brown sugar"', value: "sugar", quantity: 1 },
 ];
 
 const TECHNIQUES = [
@@ -388,19 +388,21 @@ function Minigame() {
               <div style={{ fontSize: 48, textAlign: "center", marginBottom: 12 }}>
                 {getResultEmoji(bowl, technique)}
               </div>
-              <pre style={{
-                backgroundColor: "#f4f4f4",
-                borderRadius: 8,
-                padding: "10px 12px",
-                fontSize: 12,
-                fontFamily: "monospace",
-                overflowX: "auto",
-                whiteSpace: "pre-wrap",
-                margin: "0 0 12px",
-                color: "#333",
-              }}>
-                {renderResult(result)}
-              </pre>
+              <pre
+                  style={{
+                    backgroundColor: "#f4f4f4",
+                    borderRadius: 8,
+                    padding: "10px 12px",
+                    fontSize: 11,
+                    fontFamily: "monospace",
+                    overflowX: "auto",
+                    whiteSpace: "nowrap",
+                    margin: "0 0 12px",
+                    color: "#333",
+                  }}
+                >
+                  {renderResult(result)}
+                </pre>
               {!triedMultiple && (
                 <p style={{ fontSize: 12, color: "#b45309", margin: "0 0 12px", lineHeight: 1.5 }}>
                   Try a different technique with the same bowl — see how the result changes!
